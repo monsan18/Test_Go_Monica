@@ -1,20 +1,27 @@
 package main
 
 import (
-	"net/http"
 	
 	"github.com/labstack/echo/v4"
+	"Test_Go_Monica/db"
+	"Test_Go_Monica/controller"
 )
 
 func main() {
+	//koneksi ke DB
+	db, err := db.ConnectDB()
+    if err != nil {
+        panic("connectionString error")
+    }
+    defer db.Close()
+
+
+	//membuat instance echo
 	e := echo.New()
 
-	// Middleware
-	// e.Use(middleware.Logger())
-	// e.Use(middleware.Recover())
+	
+	e.GET("/products", controller.GetAllProducts)
+	//e.POST("/products", controller.CreateProduct)
 
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":8080"))
 }

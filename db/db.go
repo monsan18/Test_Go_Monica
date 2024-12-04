@@ -9,7 +9,7 @@ import (
  var db *sql.DB
  var err error
 
- func Init(){
+ func Init(){ // Fungsi Inisialisasi db awal
 	conf := config.GetConfig()
 
 	connectionString := conf.DB_USERNAME + ":" + conf.DB_PASSWORD + "@tcp("+ conf.DB_HOST + ":" + conf.DB_PORT + ")/" + conf.DB_NAME
@@ -17,14 +17,15 @@ import (
 	db, err = sql.Open("mysql", connectionString)
 
 	if err != nil {
-		panic("connectionString error") // cek apakah connection string ada salah input ga
+		panic("connectionString error") 
 	}
 
-	err = db.Ping() // cek koneksi jalan  ada error ga
+	err = db.Ping() 
 	if err != nil {
 		panic("DSN invalid")
 	}
- } // Fungsi Inisialisasi db awal
+
+ } 
 
 
  func CreateCon() *sql.DB{

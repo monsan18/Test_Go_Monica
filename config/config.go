@@ -12,6 +12,6 @@ type Configuration struct {
 
 func GetConfig() Configuration {
 	conf := Configuration{}
-	gonfig.GetConf("config/config.json", &conf)
+	gonfig.GetConf("config/config.json", &conf) //menggunakan json untuk config database
 	return conf
 }

@@ -148,3 +148,40 @@ func DeleteProduct(Id_product int) (Response,error){
 	return res, nil
 }
 
+func GetProductUsingPagination(page, pageSize int) ([]Products, error) {
+	con := db.CreateCon() // Inisialisasi database
+
+    offset := (page - 1) * pageSize
+    rows, err := con.Query("SELECT product_id, product_name, price, qty, brand_id FROM products LIMIT ? OFFSET ?", pageSize, offset)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+
+	
+    var products []Products
+    for rows.Next() {
+        var product Products
+        if err := rows.Scan(&product.ProductId, &product.ProductName, &product.Price, &product.Qty, &product.BrandId); err != nil {
+            return nil, err
+        }
+        products = append(products, product)
+    }
+    return products, nil
+
+	//
+	// for rows.Next() {
+	// 	err = rows.Scan(&obj.ProductId, &obj.ProductName, &obj.Price, &obj.Qty, &obj.BrandId) // Scan tiap kolom apakah ada error
+	// 	if err != nil {
+	// 		return res, err // error akan di handle oleh controller
+	// 	}
+
+	// 	arrobj = append(arrobj, obj) // Menampilkan obj yang telah di scan error persatunya dalam bentuk array
+	// }
+
+	// res.Status = http.StatusOK // set status sbg 200 (ok)
+	// res.Message = "Success"    // set pesan berhasil
+	// res.Data = arrobj          // set data yang ditampilkan pada json dalam bentuk arr yang telah lolos cek error
+
+	// return res, nil
+}

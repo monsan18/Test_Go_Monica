@@ -9,11 +9,7 @@ import (
 
 func main() {
 	//koneksi ke DB
-	db, err := db.ConnectDB()
-    if err != nil {
-        panic("connectionString error")
-    }
-    defer db.Close()
+	db.Init()
 
 
 	//membuat instance echo
@@ -21,7 +17,9 @@ func main() {
 
 	
 	e.GET("/products", controller.GetAllProducts)
-	//e.POST("/products", controller.CreateProduct)
+	e.POST("/products", controller.AddProduct)
+	e.PUT("/products", controller.UpdateProduct)
+	e.DELETE("/products", controller.DeleteProduct)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

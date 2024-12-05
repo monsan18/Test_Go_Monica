@@ -26,6 +26,7 @@ func AddBrand(Brand_Name string) (Response, error) { // Fungsi untuk meng-inputk
 
 	//cek jika brand_name kosong.
 	if Brand_Name == "" {
+		//lempar message error.
 		return res, errors.New("Brand Name tidak boleh kosong.")
 	}
 
@@ -41,6 +42,7 @@ func AddBrand(Brand_Name string) (Response, error) { // Fungsi untuk meng-inputk
 		return res, err
 	}
 
+	//response message sukses
 	res.Status = http.StatusOK
 	res.Message = "Success"
 	res.Data = map[string]int64{
@@ -76,6 +78,7 @@ func DeleteBrand(Brand_Id int) (Response, error) {
 
 	rowsAffected, err := result.RowsAffected() // Meminta return dari berapa banyak rows yang terdampak kena penghapusan data
 
+	//jika tidak ada brand yang dihapus, karena masih ada brand yang digunakan dari table product.
 	if rowsAffected == 0 {
 		return res, errors.New("Tidak ada brand yang dihapus.")
 	}
